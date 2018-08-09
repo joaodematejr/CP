@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/layout/template.xhtml">
+	<ui:define name="conteudo">
+		<h:form id="grid">
+			<p:panel header="Lista de Formas de Pagamento" id="panelGrid">
+				<p:dataTable
+			    	id="dataTableFormasPagamento"
+			    	var="f"
+			    	value="#{formaPagamentoController.formasPagamentos}"
+			    	paginator="true"
+			    	rowKey="#{f.idFormaPgto}"  
+			        paginatorPosition="bottom"  
+	                paginatorAlwaysVisible="false"  
+	                rows="10"                                          
+	                emptyMessage="Nenhuma Forma de Pagamento Encontrada" 
+	                filteredValue="#{formaPagamentoController.filterFormasPagamentos}">  
+			            
+			        <p:column headerText="Código" filterBy="idFormaPgto" sortBy="idFormaPgto"  styleClass="alignCenter" >  
+			        	<h:outputText value="#{f.idFormaPgto}" />  
+			        </p:column>
+			        
+			        <p:column headerText="Forma de Pagamento" filterBy="deFormaPgto" sortBy="deFormaPgto"  >  
+			        	<h:outputText value="#{f.deFormaPgto}" />  
+			        </p:column>  
+			        
+			        <p:column headerText="#{msg['label.cliente.acao']}" style="text-align: center;" > 
+			            <p:commandButton update="@all" action="#{formaPagamentoController.visualizarFormaPagamento(f)}" id="iconVisualizar" icon="ui-icon ui-icon ui-icon-search" title="Visualizar"/>
+			            <p:commandButton update="@all" action="#{formaPagamentoController.editaFormaPagamento(f)}" id="iconEditar" icon="ui-icon ui-icon-pencil" title="Editar"/>
+			        </p:column>
+			        
+			        
+		    	</p:dataTable>
+		    	
+		    	<f:facet name="footer"> 
+		        	<p:commandButton id="cadButton" value="Nova Forma de Pagamento" icon="ui-icon-pencil" action="#{formaPagamentoController.novaFormaPagamento()}"/>
+		        </f:facet> 
+			</p:panel>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>

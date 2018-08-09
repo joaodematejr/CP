@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/layout/template.xhtml">
+				
+	<ui:define name="conteudo">
+
+		<h:form id="formCadProduto">
+		    
+		    <p:panel header="Cadastro de Produtos">
+		    	<h:panelGrid columns="3" id="grid">
+		    	
+					<h:outputLabel for="deProduto" value="Descrição do Produto: " style="font-weight: bold;"/>
+		            <p:inputText id="deProduto" maxlength="100" label="deProduto" value="#{produtoController.produto.deProduto}" required="true" requiredMessage="Campo Obrigatório" style="width:400px"/> 
+					<p:message id="msgDeProduto" for="deProduto" display="text" />
+					
+					<h:outputLabel for="statusProduto" value="Status: " />
+					<p:selectOneMenu id="statusProduto" label="statusProduto" value="#{produtoController.produto.statusProduto}" required="true" requiredMessage="Selecione uma opção" style="width:200px">
+			            <f:selectItem itemLabel="Ativo" itemValue="A" />  
+			            <f:selectItem itemLabel="Inativo" itemValue="I" />  
+			        </p:selectOneMenu>
+					<p:message id="msgStatusProduto" for="statusProduto" display="text" />
+					
+					<h:inputHidden value="#{produtoController.produto.idProduto}" />
+		    	</h:panelGrid>
+
+		        <f:facet name="footer">
+					<p:commandButton action="#{produtoController.save()}" icon="ui-icon ui-icon-disk" update="@all" value="#{produtoController.produto.idProduto == null ? 'Gravar' : 'Alterar'}"/>
+					<p:button outcome="ConProduto" icon="ui-icon ui-icon-close" value="Cancelar"/>
+				</f:facet>
+		    </p:panel>  
+			
+		</h:form>
+  
+	</ui:define>
+
+</ui:composition>

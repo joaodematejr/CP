@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/layout/template.xhtml">
+	<ui:define name="conteudo">
+		<h:form id="grid">
+			<p:panel header="Lista de Veículos" id="panelGrid">
+				<p:dataTable
+			    	id="dataTableVeiculos"
+			    	var="v"
+			    	value="#{veiculoController.veiculos}"
+			    	paginator="true"
+			    	rowKey="#{v.idVeiculo}"  
+			        paginatorPosition="bottom"  
+	                paginatorAlwaysVisible="false"  
+	                rows="10"  
+	                widgetVar="veiculosTable"
+	                filterEvent="enter"                        
+	                emptyMessage="Nenhum Veículo encontrado" 
+	                filteredValue="#{veiculoController.filterVeiculo}">  
+	                
+	                <f:facet name="header">
+			            <p:outputPanel styleClass="alignRight">
+			                <h:outputText value="Pesquisar em todos os campos:" />
+			                <p:inputText id="globalFilter" onchange="PF('veiculosTable').filter()" style="width:300px" placeholder="Insira a palavra-chave"/>
+			            </p:outputPanel>
+			        </f:facet>
+			            
+			        <p:column headerText="Código" filterBy="#{v.idVeiculo}" sortBy="#{v.idVeiculo}"  styleClass="alignCenter" width="100">  
+			        	<h:outputText value="#{v.idVeiculo}" />  
+			        </p:column>
+			        
+			        <p:column headerText="Veículo" filterBy="#{v.veiculoFmt}" sortBy="#{v.veiculoFmt}" >  
+			        	<h:outputText value="#{v.veiculoFmt}" />  
+			        </p:column>
+			        
+			        <p:column headerText="Placa" filterBy="#{v.nuPlaca}" sortBy="#{v.nuPlaca}" styleClass="alignCenter" width="150" >  
+			        	<h:outputText value="#{v.nuPlaca}" />  
+			        </p:column>  
+			        
+			        <p:column headerText="Marca" filterBy="#{v.marcaFmt}" sortBy="#{v.marcaFmt}" width="200" >  
+			        	<h:outputText value="#{v.marcaFmt}" />  
+			        </p:column> 
+			        
+			        <p:column headerText="Modelo" filterBy="#{v.modeloFmt}" sortBy="#{v.modeloFmt}" width="300" >  
+			        	<h:outputText value="#{v.modeloFmt}" />  
+			        </p:column> 
+			        
+			        <p:column headerText="#{msg['label.cliente.acao']}" styleClass="alignCenter" width="30" exportable="false"> 
+			            <p:commandButton update="@all" action="#{veiculoController.visualizarVeiculo(v)}" id="iconVisualizar" icon="ui-icon ui-icon ui-icon-search" title="Visualizar"/>
+			        </p:column>
+			        
+		    	</p:dataTable>
+		    	
+		    	<p:spacer height="50" width="10" />
+		    	
+		    	<h:commandLink id="excel">
+			        <p:graphicImage id="imgExcel" value="imagens/excel.png" />
+			        <p:dataExporter type="xls" target="dataTableVeiculos" fileName="VeiculosCP"  />
+			    </h:commandLink>
+			 
+			    <h:commandLink id="pdf">
+			        <p:graphicImage value="imagens/pdf.png" />
+			        <p:dataExporter type="pdf" encoding="ISO-8859-1" preProcessor="#{utilsController.preProcessPDF}" target="dataTableVeiculos" fileName="VeiculosCP" />
+			    </h:commandLink>
+			 
+<!-- 			    <h:commandLink id="csv"> -->
+<!-- 			        <p:graphicImage value="imagens/csv.png" /> -->
+<!-- 			        <p:dataExporter type="csv" target="dataTableVeiculos" fileName="VeiculosCP" /> -->
+<!-- 			    </h:commandLink> -->
+			 
+<!-- 			    <h:commandLink id="xml"> -->
+<!-- 			        <p:graphicImage value="imagens/xml.png" /> -->
+<!-- 			        <p:dataExporter type="xml" target="dataTableVeiculos" fileName="VeiculosCP" /> -->
+<!-- 			    </h:commandLink> -->
+		    	
+			</p:panel>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>

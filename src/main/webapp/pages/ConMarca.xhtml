@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/layout/template.xhtml">
+	<ui:define name="conteudo">
+		<h:form id="grid">
+			<p:panel header="Lista de Marcas dos Veículos" id="panelGrid">
+				<p:dataTable
+			    	id="dataTableMarcas"
+			    	var="m"
+			    	value="#{marcaController.marcas}"
+			    	paginator="true"
+			    	rowKey="#{m.idMarca}"  
+			        paginatorPosition="bottom"  
+	                paginatorAlwaysVisible="false"  
+	                rows="10"
+	                widgetVar="marcasTable"
+	                filterEvent="enter"
+	                emptyMessage="Nenhuma Marca encontrada" 
+	                filteredValue="#{marcaController.filterMarca}">  
+	                
+	                <f:facet name="header">
+			            <p:outputPanel styleClass="alignRight">
+			                <h:outputText value="Pesquisar em todos os campos:" />
+			                <p:inputText id="globalFilter" onchange="PF('marcasTable').filter()" style="width:300px" placeholder="Insira a palavra-chave"/>
+			            </p:outputPanel>
+			        </f:facet>
+			            
+			        <p:column headerText="Código" filterBy="#{m.idMarca}" sortBy="#{m.idMarca}"  styleClass="alignCenter" width="80" >  
+			        	<h:outputText value="#{m.idMarca}" />  
+			        </p:column>
+			        
+			        <p:column headerText="Marca" filterBy="#{m.deMarca}" sortBy="#{m.deMarca}"  >  
+			        	<h:outputText value="#{m.deMarca}" />  
+			        </p:column>  
+			        
+			        <p:column headerText="#{msg['label.cliente.acao']}" styleClass="alignCenter" width="90" > 
+			            <p:commandButton update="@all" action="#{marcaController.visualizarMarca(m)}" id="iconVisualizar" icon="ui-icon ui-icon ui-icon-search" title="Visualizar"/>
+			            <p:commandButton update="@all" action="#{marcaController.editaMarca(m)}" id="iconEditar" icon="ui-icon ui-icon-pencil" title="Editar"/>
+			        </p:column>
+			        
+		    	</p:dataTable>
+		    	
+		    	<f:facet name="footer"> 
+		        	<p:commandButton id="cadButton" value="Nova Marca" icon="ui-icon-pencil" action="#{marcaController.novaMarca()}"/>
+		        </f:facet> 
+			</p:panel>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>

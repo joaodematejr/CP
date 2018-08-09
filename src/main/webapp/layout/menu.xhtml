@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+
+		<p:menubar autoDisplay="false">  
+		    <p:menuitem icon="ui-icon ui-icon-home" url="#{menuController.home()}"/>
+		              
+		    <p:submenu icon="ui-icon ui-icon-note" label="#{msg['label.cadastro']}" >
+		        <p:menuitem icon="ui-icon ui-icon-wrench" value="#{msg['label.cadastro.ordemservico']}" url="#{menuController.servicoConsultar()}" styleClass="open"/>
+		        <p:menuitem icon="ui-icon ui-icon-person" value="#{msg['label.cadastro.cliente']}" url="#{menuController.clienteConsultar()}" styleClass="open"/>
+		        <p:submenu icon="ui-icon ui-icon-cart" label="#{msg['label.cadastro.veiculo']}">
+			        <p:menuitem icon="ui-icon ui-icon-cart" value="#{msg['label.cadastro.veiculo']}" url="#{menuController.veiculoConsultar()}" styleClass="open"/>
+			        <p:menuitem icon="ui-icon ui-icon-cart" value="#{msg['label.cadastro.marca']}" url="#{menuController.marcaConsultar()}" styleClass="open"/>
+			        <p:menuitem icon="ui-icon ui-icon-cart" value="#{msg['label.cadastro.modelo']}" url="#{menuController.modeloConsultar()}" styleClass="open"/>
+		        </p:submenu>
+		        <p:menuitem icon="ui-icon ui-icon-suitcase" value="#{msg['label.cadastro.produto']}" url="#{menuController.produtoConsultar()}" styleClass="open"/>
+		        <p:menuitem icon="ui-icon ui-icon-calculator" value="#{msg['label.cadastro.formapagamento']}" url="#{menuController.formaPagamentoConsultar()}" styleClass="open"/>
+		    </p:submenu>  
+		    
+	        <p:menuitem icon="ui-icon ui-icon-flag" value="#{msg['label.relatorio.financeiro']}" url="#{menuController.relFechamentoCaixa()}" styleClass="open"/>
+
+		  
+		</p:menubar>
+		
+	</h:form>
+</ui:composition>

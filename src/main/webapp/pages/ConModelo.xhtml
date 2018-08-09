@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/layout/template.xhtml">
+	<ui:define name="conteudo">
+		<h:form id="grid">
+			<p:panel header="Lista de Modelo dos Veículos" id="panelGrid">
+				<p:dataTable
+			    	id="dataTableMarcas"
+			    	var="mo"
+			    	value="#{modeloController.modelos}"
+			    	paginator="true"
+			    	rowKey="#{mo.idModelo}"  
+			        paginatorPosition="bottom"  
+	                paginatorAlwaysVisible="false"  
+	                rows="10"
+	                widgetVar="modeloTable"
+	                filterEvent="enter"
+	                emptyMessage="Nenhuma Modelo encontrado" 
+	                filteredValue="#{modeloController.filterModelo}">
+	                
+	                <f:facet name="header">
+			            <p:outputPanel styleClass="alignRight">
+			                <h:outputText value="Pesquisar em todos os campos:" />
+			                <p:inputText id="globalFilter" onchange="PF('modeloTable').filter()" style="width:300px" placeholder="Insira a palavra-chave"/>
+			            </p:outputPanel>
+			        </f:facet>
+			            
+			        <p:column headerText="Código" filterBy="#{mo.idModelo}" sortBy="#{mo.idModelo}"  styleClass="alignCenter" width="80" >  
+			        	<h:outputText value="#{mo.idModelo}" />  
+			        </p:column>
+			        
+			        <p:column headerText="Modelo" filterBy="#{mo.deModelo}" sortBy="#{mo.deModelo}"  >  
+			        	<h:outputText value="#{mo.deModelo}" />  
+			        </p:column>
+			        
+			        <p:column headerText="Marca" filterBy="#{mo.marcaFmt}" sortBy="#{mo.marcaFmt}" width="200" >  
+			        	<h:outputText value="#{mo.marcaFmt}" />  
+			        </p:column>  
+			        
+			        <p:column headerText="#{msg['label.cliente.acao']}" style="text-align: center;" width="90"> 
+			            <p:commandButton update="@all" action="#{modeloController.visualizarModelo(mo)}" id="iconVisualizar" icon="ui-icon ui-icon ui-icon-search" title="Visualizar"/>
+			            <p:commandButton update="@all" action="#{modeloController.editaModelo(mo)}" id="iconEditar" icon="ui-icon ui-icon-pencil" title="Editar"/>
+			        </p:column>
+			        
+		    	</p:dataTable>
+		    	
+		    	<f:facet name="footer"> 
+		        	<p:commandButton id="cadButton" value="Novo Modelo" icon="ui-icon-pencil" action="#{modeloController.novoModelo()}"/>
+		        </f:facet> 
+			</p:panel>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>

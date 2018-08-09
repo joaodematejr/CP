@@ -1,0 +1,69 @@
+<f:view contentType="text/html"
+	  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="http://richfaces.org/a4j"
+      xmlns:p="http://primefaces.org/ui">
+	<h:body>
+		<h:form>
+			<p:panelGrid columns="2" title="Detalhes do Cliente" >
+				<h:outputText value="#{clienteController.cliente.deTipoCliente == 'F' ? 'CPF:' : 'CNPJ:'}" style="font-weight: bold;"/>
+				<h:outputText value="#{clienteController.cliente.nuCliente}" />
+				
+				<h:outputText value="#{clienteController.cliente.deTipoCliente == 'F' ? 'Nome:' : 'Razão Social:'}" style="font-weight: bold;"/>
+				<h:outputText value="#{clienteController.cliente.nmCliente}" />
+				
+				<h:outputText value="Sexo:" style="font-weight: bold;" rendered="#{clienteController.cliente.deTipoCliente == 'F' and not empty clienteController.cliente.deSexo}"/>
+				<h:outputText value="#{clienteController.cliente.deSexo == 'F' ? 'Feminino' : 'Masculino'}" rendered="#{clienteController.cliente.deTipoCliente == 'F' and not empty clienteController.cliente.deSexo}"/>
+				
+				<h:outputText value="Data Nascimento:" style="font-weight: bold;" rendered="#{clienteController.cliente.deTipoCliente == 'F' and not empty clienteController.cliente.dtNasc}"/>
+				<h:outputText value="#{clienteController.cliente.dtNasc}" rendered="#{clienteController.cliente.deTipoCliente == 'F' and not empty clienteController.cliente.dtNasc}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{utilsController.timeZone}"/>
+				</h:outputText>
+				
+				<h:outputText value="Cart. Ident.:" style="font-weight: bold;" rendered="#{clienteController.cliente.deTipoCliente == 'F' and not empty clienteController.cliente.nuIdentidade}"/>
+				<h:outputText value="#{clienteController.cliente.nuIdentidade}" rendered="#{clienteController.cliente.deTipoCliente == 'F' and not empty clienteController.cliente.nuIdentidade}"/>
+				
+				<h:outputText value="Tipo Cliente:" style="font-weight: bold;"/>
+				<h:outputText value="#{clienteController.cliente.deTipoCliente == 'F' ? 'Pessoa Física' : 'Pessoa Jurídica'}" />
+				
+				<h:outputText value="#{clienteController.cliente.deTipoCliente == 'F' ? 'Apelido:' : 'Nome Fantasia:'}" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.deApelido}"/>
+				<h:outputText value="#{clienteController.cliente.deApelido}" rendered="#{not empty clienteController.cliente.deApelido}"/>
+				
+				<h:outputText value="Instrição Estadual:" style="font-weight: bold;" rendered="#{clienteController.cliente.deTipoCliente == 'J' and not empty clienteController.cliente.nuInscricaoEstadual}"/>
+				<h:outputText value="#{clienteController.cliente.nuInscricaoEstadual}" rendered="#{clienteController.cliente.deTipoCliente == 'J' and not empty clienteController.cliente.nuInscricaoEstadual}"/>
+				
+				<h:outputText value="Logradouro:" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.endereco.nmEndereco}"/>
+				<h:outputText value="#{clienteController.cliente.endereco.nmEndereco}" rendered="#{not empty clienteController.cliente.endereco.nmEndereco}"/>
+				
+				<h:outputText value="Bairro:" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.endereco.nmBairro}"/>
+				<h:outputText value="#{clienteController.cliente.endereco.nmBairro}" rendered="#{not empty clienteController.cliente.endereco.nmBairro}"/>
+				
+				<h:outputText value="Cidade:" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.endereco.nmCidade}"/>
+				<h:outputText value="#{clienteController.cliente.endereco.nmCidade}" rendered="#{not empty clienteController.cliente.endereco.nmCidade}"/>
+				
+				<h:outputText value="Estado:" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.endereco.nmUf}"/>
+				<h:outputText value="#{clienteController.cliente.endereco.nmUf}" rendered="#{not empty clienteController.cliente.endereco.nmUf}"/>
+				
+				<h:outputText value="CEP:" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.endereco.nuCep}"/>
+				<h:outputText value="#{clienteController.cliente.endereco.nuCep}" rendered="#{not empty clienteController.cliente.endereco.nuCep}"/>
+				
+				<h:outputText value="Telefone Residêncial:" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.contato.nuTelRes}"/>
+				<h:outputText value="#{clienteController.cliente.contato.nuTelRes}" rendered="#{not empty clienteController.cliente.contato.nuTelRes}"/>
+				
+				<h:outputText value="Telefone Comercial:" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.contato.nuTelCom}"/>
+				<h:outputText value="#{clienteController.cliente.contato.nuTelCom}" rendered="#{not empty clienteController.cliente.contato.nuTelCom}"/>
+				
+				<h:outputText value="Telefone Celular:" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.contato.nuTelCel}"/>
+				<h:outputText value="#{clienteController.cliente.contato.nuTelCel}" rendered="#{not empty clienteController.cliente.contato.nuTelCel}"/>
+				
+				<h:outputText value="E-mail:" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.contato.deEmail}"/>
+				<h:outputText value="#{clienteController.cliente.contato.deEmail}" rendered="#{not empty clienteController.cliente.contato.deEmail}"/>
+				
+				<h:outputText value="Site:" style="font-weight: bold;" rendered="#{not empty clienteController.cliente.contato.deSite}"/>
+				<h:outputText value="#{clienteController.cliente.contato.deSite}" rendered="#{not empty clienteController.cliente.contato.deSite}"/>
+			</p:panelGrid>
+		</h:form>
+	</h:body>
+</f:view>

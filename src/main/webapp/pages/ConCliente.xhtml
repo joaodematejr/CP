@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/layout/template.xhtml">
+	<ui:define name="conteudo">
+		<h:form id="grid">
+			<p:panel header="Lista de Clientes Cadastrados" id="panelGrid" >
+				<p:dataTable
+			    	id="dataTableClientes"
+			    	var="c"
+			    	value="#{clienteController.clientes}"
+			    	paginator="true"
+			    	rowKey="#{c.idCliente}"  
+			        paginatorPosition="bottom"  
+	                paginatorAlwaysVisible="false"  
+	                rows="10"                                          
+	                emptyMessage="Nenhum Cliente Encontrado" 
+	                widgetVar="clientesTable"
+	                filterEvent="enter"
+	                filteredValue="#{clienteController.filterClientes}">
+					
+					<f:facet name="header">
+			            <p:outputPanel styleClass="alignRight">
+			                <h:outputText value="Pesquisar em todos os campos:"  />
+			                <p:inputText id="globalFilter" onchange="PF('clientesTable').filter()" style="width:300px" placeholder="Insira a palavra-chave"/>
+			            </p:outputPanel>
+			        </f:facet>
+					
+			        <p:column headerText="#{msg['label.cliente.nucliente']}" filterBy="#{c.nuCliente}" sortBy="#{c.nuCliente}" styleClass="alignCenter" width="120">  
+			        	<h:outputText value="#{c.nuCliente}" />  
+			        </p:column>  
+			        
+			        <p:column headerText="#{msg['label.cliente.nmcliente']}" filterBy="#{c.nmCliente}" sortBy="#{c.nmCliente}" width="150">  
+			        	<h:outputText value="#{c.nmCliente}" />  
+			        </p:column>
+			        
+			        <p:column headerText="#{msg['label.cliente.deapelido']}" filterBy="#{c.deApelido}" sortBy="#{c.deApelido}" width="150" >  
+			        	<h:outputText value="#{c.deApelido}" />  
+			        </p:column>
+
+			        <p:column headerText="e-mail" filterBy="#{c.contato.deEmail}" sortBy="#{c.contato.deEmail}" width="180" >  
+			        	<h:outputText value="#{c.contato.deEmail}" />  
+			        </p:column>
+
+			        <p:column headerText="Telefone" filterBy="#{c.contato.nuTelCel}" sortBy="#{c.contato.nuTelCel}"  styleClass="alignCenter" width="95">  
+			        	<h:outputText value="#{c.contato.nuTelCel}" />  
+			        </p:column>
+			        
+			        <p:column headerText="Tipo" filterBy="#{c.deTipoClienteFmt}" sortBy="#{c.deTipoClienteFmt}" styleClass="alignCenter" width="50" exportable="false">  
+			        	<h:outputText value="#{c.deTipoClienteFmt}" />  
+			        </p:column>
+			  
+			        <p:column headerText="Cadastro" filterBy="#{c.dtCadastro}" sortBy="#{c.dtCadastro}" styleClass="alignCenter" width="80" exportable="false">  
+			            <h:outputText value="#{c.dtCadastro}" >
+			            	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{utilsController.timeZone}"/>
+			            </h:outputText>
+			        </p:column>  
+			        
+			        <p:column headerText="#{msg['label.cliente.statuscliente']}" filterBy="#{c.statusClienteFmt}" sortBy="#{c.statusClienteFmt}" styleClass="alignCenter" width="55" exportable="false">
+			        	<p:commandLink id="ajaxStatusCliente" update="@all" actionListener="#{clienteController.updateStatus(c)}">
+			        		<p:graphicImage id="image" value="#{c.statusCliente == 'A' ? 'imagens/ativo.png' : 'imagens/inativo.png'}" />
+			        	</p:commandLink>
+			        </p:column>  
+
+			        <p:column headerText="#{msg['label.cliente.acao']}" styleClass="alignCenter" width="55" exportable="false"> 
+			            <p:commandButton update="@all" action="#{clienteController.visualizarCliente(c)}" id="iconVisualizar" icon="ui-icon ui-icon ui-icon-search" title="Visualizar"/>
+			            <p:commandButton update="@all" action="#{clienteController.editaCliente(c)}" id="iconEditar" icon="ui-icon ui-icon-pencil" title="Editar"/>
+			        </p:column>  
+			        
+		    	</p:dataTable>
+		    	
+		    	<p:spacer height="50" width="10" />
+		    	
+		    	<h:commandLink id="excel">
+			        <p:graphicImage id="imgExcel" value="imagens/excel.png" />
+			        <p:dataExporter type="xls" target="dataTableClientes" fileName="ClientesCP"  />
+			    </h:commandLink>
+			 
+			    <h:commandLink id="pdf">
+			        <p:graphicImage value="imagens/pdf.png" />
+			        <p:dataExporter type="pdf" encoding="ISO-8859-1" preProcessor="#{utilsController.preProcessPDF}" target="dataTableClientes" fileName="ClientesCP" />
+			    </h:commandLink>
+			 
+<!-- 			    <h:commandLink id="csv"> -->
+<!-- 			        <p:graphicImage value="imagens/csv.png" /> -->
+<!-- 			        <p:dataExporter type="csv" target="dataTableClientes" fileName="ClientesCP" /> -->
+<!-- 			    </h:commandLink> -->
+			 
+<!-- 			    <h:commandLink id="xml"> -->
+<!-- 			        <p:graphicImage value="imagens/xml.png" /> -->
+<!-- 			        <p:dataExporter type="xml" target="dataTableClientes" fileName="ClientesCP" /> -->
+<!-- 			    </h:commandLink> -->
+		    	
+		    	<f:facet name="footer"> 
+		        	<p:commandButton id="cadButton" value="#{msg['label.botoes.novo.cliente']}" icon="ui-icon-pencil" action="#{clienteController.novoCliente()}"/>
+		        </f:facet> 
+			</p:panel>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>

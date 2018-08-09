@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/layout/template.xhtml">
+	<ui:define name="conteudo">
+		<h:form id="grid">
+			<p:panel header="Lista de Prdutos" id="panelGrid">
+				<p:dataTable
+			    	id="dataTableProdutos"
+			    	var="p"
+			    	value="#{produtoController.produtos}"
+			    	paginator="true"
+			    	rowKey="#{p.idProduto}"  
+			        paginatorPosition="bottom"  
+	                paginatorAlwaysVisible="false"  
+	                rows="10"
+	                widgetVar="produtosTable"
+	                filterEvent="enter"
+	                emptyMessage="Nenhum Produto Encontrado" 
+	                filteredValue="#{produtoController.filterProdutos}">
+	                
+	                <f:facet name="header">
+			            <p:outputPanel styleClass="alignRight">
+			                <h:outputText value="Pesquisar em todos os campos:" />
+			                <p:inputText id="globalFilter" onchange="PF('produtosTable').filter()" style="width:300px" placeholder="Insira a palavra-chave"/>
+			            </p:outputPanel>
+			        </f:facet>
+			            
+			        <p:column headerText="Código" filterBy="#{p.idProduto}" sortBy="#{p.idProduto}"  styleClass="alignCenter" width="80" >  
+			        	<h:outputText value="#{p.idProduto}" />  
+			        </p:column>
+			        
+			        <p:column headerText="Produto" filterBy="#{p.deProduto}" sortBy="#{p.deProduto}"  >  
+			        	<h:outputText value="#{p.deProduto}" />  
+			        </p:column>  
+			        
+			        <p:column headerText="Status" filterBy="#{p.statusProdutoFmt}" sortBy="#{p.statusProdutoFmt}" styleClass="alignCenter" width="80" >
+			        	<p:commandLink id="ajaxStatusProduto" update="@all" actionListener="#{produtoController.updateStatus(p)}">
+			        		<p:graphicImage id="image" value="#{p.statusProduto == 'A' ? 'imagens/ativo.png' : 'imagens/inativo.png'}" />
+<!-- 				            <h:outputText id="labelStatusProduto" value="#{p.statusProdutoFmt}" /> -->
+			        	</p:commandLink>
+			        </p:column> 
+			        
+			        <p:column headerText="#{msg['label.cliente.acao']}" styleClass="alignCenter" width="90" > 
+			            <p:commandButton update="@all" action="#{produtoController.visualizaProduto(p)}" id="iconVisualizar" icon="ui-icon ui-icon ui-icon-search" title="Visualizar"/>
+			            <p:commandButton update="@all" action="#{produtoController.editaProduto(p)}" id="iconEditar" icon="ui-icon ui-icon-pencil" title="Editar"/>
+			        </p:column>
+			        
+		    	</p:dataTable>
+		    	
+		    	<f:facet name="footer"> 
+		        	<p:commandButton id="cadButton" value="Novo Produto" icon="ui-icon-pencil" action="#{produtoController.novoProduto()}"/>
+		        </f:facet> 
+			</p:panel>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>

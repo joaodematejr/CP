@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/layout/template.xhtml">
+				
+	<ui:define name="conteudo">
+
+		<h:form id="formCadModelo">
+		    
+		    <p:panel header="Cadastro de Modelo dos Veículos">
+		    	<h:panelGrid columns="3" id="grid" columnClasses="colunaLabel">
+		    	
+					<h:outputLabel for="deModelo" value="Modelo do Veículo: " />
+		            <p:inputText id="deModelo" maxlength="100" label="deModelo" value="#{modeloController.modelo.deModelo}" required="true" requiredMessage="Campo Obrigatório" style="width:300px"/> 
+					<p:message id="msgDeModelo" for="deModelo" display="text" />
+					
+					<h:outputLabel for="deMarca" value="Marca: " />
+					<p:selectOneMenu id="deMarca" label="deMarca" value="#{modeloController.modelo.marca}" style="width:300px" >
+		            	<f:selectItem itemLabel="-- Selecione --" itemValue=""/>
+		            	<f:selectItems value="#{marcaController.marcas}" var="marca" itemLabel="#{marca.deMarca}" itemValue="#{marca}"/>
+					</p:selectOneMenu>
+					
+					<h:inputHidden value="#{modeloController.modelo.idModelo}" />
+							
+		    	</h:panelGrid>
+
+		        <f:facet name="footer">
+					<p:commandButton action="#{modeloController.salvarModelo}" icon="ui-icon ui-icon-disk" update="@all" value="#{modeloController.modelo.idModelo == null ? 'Gravar' : 'Alterar'}"/>
+					<p:button outcome="ConModelo" icon="ui-icon ui-icon-close" value="Cancelar"/>
+				</f:facet>
+		    </p:panel>  
+			
+		</h:form>
+  
+	</ui:define>
+
+</ui:composition>

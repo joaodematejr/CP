@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:pe="http://primefaces.org/ui/extensions">
+	<h:head>
+		<title>#{msg['label.nome.sistema']}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link type="text/css" rel="stylesheet" href="#{facesContext.externalContext.request.contextPath}/css/CasaDasPeliculas.css"  />
+		<script type="text/javascript" src="#{facesContext.externalContext.request.contextPath}/js/CasaDasPeliculas.js" charset="utf-8"/>
+		<h:outputScript name="jquery/jquery-plugins.js" library="primefaces"/>
+	</h:head>
+	
+	<h:body>
+		
+		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+	
+		<h:panelGroup layout="block" id="divBody">
+			
+			<h:panelGroup layout="block" id="divMenu">
+				<ui:include src="/layout/menu.xhtml" />
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" id="divConteudo">
+ 
+				
+	 			<h:form id="formMessages">
+	 				<p:growl id="growl" showDetail="true" life="5000" autoUpdate="true" closable="true" /> 
+				</h:form>
+				<ui:insert name="conteudo"/> 
+			</h:panelGroup> 
+		</h:panelGroup>
+		
+<!-- 		<p:stack icon="/imagens/stack.png">   -->
+<!-- 		    <p:menuitem value="Serviço" icon="/imagens/servico.png" url="#{menuController.servicoConsultar()}" />   -->
+<!-- 		    <p:menuitem value="Cliente" icon="/imagens/cliente.png" url="#{menuController.clienteConsultar()}" />   -->
+<!-- 		    <p:menuitem value="Produto" icon="/imagens/produto.png" url="#{menuController.produtoConsultar()}" />   -->
+<!-- 		    <p:menuitem value="Marca" icon="/imagens/marca.png" url="#{menuController.marcaConsultar()}" />   -->
+<!-- 		    <p:menuitem value="Modelo" icon="/imagens/modelo.png" url="#{menuController.modeloConsultar()}" />   -->
+<!-- 		    <p:menuitem value="Pagamento" icon="/imagens/pagamento.png" url="#{menuController.formaPagamentoConsultar()}" />   -->
+<!-- 		</p:stack> -->
+
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+		    <p:graphicImage library="imagens" name="ajaxloadingbar.gif" />
+		</p:dialog>
+		
+	</h:body>
+</html>

@@ -1,0 +1,155 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:tabView id="tabView">  
+	  
+	    <p:tab id="tab1" title="Cliente">  
+	        <h:panelGrid columns="3" cellpadding="2" columnClasses="colunaLabel">
+	        
+	        	<h:outputLabel for="deTipoCliente" value="Tipo Cliente*: "/>
+            	<p:selectOneMenu id="deTipoCliente" label="deTipoCliente" value="#{clienteController.cliente.deTipoCliente}" required="true" requiredMessage="Selecione uma opção" style="width:200px">
+            	  	<f:selectItem itemLabel="-- Selecione --" itemValue=""/>
+		            <f:selectItem itemLabel="Pessoa Física" itemValue="F" />  
+		            <f:selectItem itemLabel="Pessoa Jurídica" itemValue="J" />
+		            <p:ajax process="@this" update="pnlDadosCliente"/>
+		        </p:selectOneMenu>
+				<p:message id="msgDeTipoCliente" for="deTipoCliente" display="text" />
+				
+			</h:panelGrid> 
+				
+			<h:panelGroup id="pnlDadosCliente" layout="block" >
+
+				<h:panelGroup id="pnlDadosComunsCliente" layout="block" rendered="#{clienteController.cliente.deTipoCliente == 'F' or clienteController.cliente.deTipoCliente == 'J'}">
+		            <h:panelGrid columns="3" columnClasses="colunaLabel">
+			            <h:outputLabel for="nuCliente" value="#{clienteController.cliente.deTipoCliente == 'F' ? 'CPF*: ' : 'CNPJ*: '}"/>
+			            <p:inputMask id="nuCliente" label="nuCliente" maxlength="18" value="#{clienteController.cliente.nuCliente}" mask="#{clienteController.cliente.deTipoCliente == 'F' ? '999.999.999-99' : '99.999.999/9999-99'}" required="true" requiredMessage="Campo Obrigatório"/> 
+						<p:message id="msgNuCliente" for="nuCliente" display="text" />
+						
+						<h:outputLabel for="nmCliente" value="#{clienteController.cliente.deTipoCliente == 'F' ? 'Nome*: ' : 'Razão Social*: '}"/>
+		            	<p:inputText id="nmCliente" label="nmCliente" value="#{clienteController.cliente.nmCliente}" required="true" requiredMessage="Campo Obrigatório" style="width:600px"/>  
+						<p:message id="msgNmCliente" for="nmCliente" display="text" />
+						
+						<h:outputLabel for="deObservacao" value="Observação: "/>
+			            <p:inputTextarea id="deObservacao" rows="3" value="#{clienteController.cliente.deObservacao}" style="width:600px"/>
+		            	<h:outputText value="" />  
+		            	
+		            	<h:outputLabel value="#{clienteController.cliente.deTipoCliente == 'F' ? 'Apelido: ' : 'Nome Fantasia: '}" />
+		            	<p:inputText id="deApelido" value="#{clienteController.cliente.deApelido}" style="width:600px"/>
+		            	<h:outputText value="" />
+		            	
+		            	<h:outputLabel for="statusCliente" value="Status: " />
+						<p:selectOneMenu id="statusCliente" label="statusCliente" value="#{clienteController.cliente.statusCliente}" required="true" requiredMessage="Selecione uma opção" style="width:200px">
+				            <f:selectItem itemLabel="Ativo" itemValue="A" />  
+				            <f:selectItem itemLabel="Inativo" itemValue="I" />  
+				        </p:selectOneMenu>
+						<p:message id="msgStatusCliente" for="statusCliente" display="text" />
+						
+						<h:outputLabel value="Telefone Celular*: " />
+		            	<p:inputMask id="nuTelCel" mask="(99)99999-9999" required="true" maxlength="13" value="#{clienteController.cliente.contato.nuTelCel}" style="width:600px" requiredMessage="Campo Obrigatório"/> 
+						<p:message id="msgNuTelCel" for="nuTelCel" display="text" />
+						
+					</h:panelGrid>
+				</h:panelGroup>
+			
+				<h:panelGroup id="pnlDadosClienteF" layout="block" rendered="#{clienteController.cliente.deTipoCliente == 'F'}">
+					<h:panelGrid columns="3" columnClasses="colunaLabel">
+						<h:outputLabel for="deSexo" value="Sexo: " />
+						<p:selectOneMenu id="deSexo" label="deSexo" value="#{clienteController.cliente.deSexo}" style="width:200px">
+			            	<f:selectItem itemLabel="-- Selecione --" itemValue=""/>
+			            	<f:selectItem itemLabel="Masculino" itemValue="M" />
+				            <f:selectItem itemLabel="Feminino" itemValue="F" />
+						</p:selectOneMenu>
+						<h:outputText value="" />
+					
+						<h:outputLabel value="Data Nascimento: " />
+		            	<p:inputMask id="dtNasc" mask="99/99/9999" value="#{clienteController.cliente.dtNasc}">  
+		    				<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{utilsController.timeZone}" />
+	    				</p:inputMask>
+	    				<h:outputText value="" />
+	    				
+	    				<h:outputLabel value="Identidade: " />
+		            	<p:inputText id="nuIdentidade" value="#{clienteController.cliente.nuIdentidade}" style="width:600px"/>
+			            <h:outputText value="" /> 
+			            
+			            <h:outputText value="" /> 
+			            <h:outputText value="* Campos obrigatórios" style="font-weight: bold;color: red;"/> 
+			            <h:outputText value="" /> 
+		            </h:panelGrid>
+				</h:panelGroup>
+				
+				<h:panelGroup id="pnlDadosClienteJ" layout="block" rendered="#{clienteController.cliente.deTipoCliente == 'J'}">
+		            <h:panelGrid columns="3" columnClasses="colunaLabel">
+			            <h:outputLabel value="Inscrição Estadual: "  />
+		            	<p:inputText id="nuInscricaoEstadual" value="#{clienteController.cliente.nuInscricaoEstadual}" style="width:600px" />  
+			            <h:outputText value="" /> 
+			            
+			            <h:outputText value="" /> 
+			            <h:outputText value="* Campos obrigatórios" style="font-weight: bold;color: red;"/> 
+			            <h:outputText value="" /> 
+		            </h:panelGrid>
+				</h:panelGroup>
+			</h:panelGroup>
+	         
+	    </p:tab>  
+	  
+	    <p:tab id="tab2" title="Endereço">  
+	        <h:panelGrid columns="3" cellpadding="2" columnClasses="colunaLabel">  
+				
+				<h:outputLabel value="Logradouro: " />
+            	<p:inputText id="nmEndereco" value="#{clienteController.cliente.endereco.nmEndereco}" style="width:600px"/>  
+				<h:outputText value="" />
+
+	            <h:outputLabel value="Bairro: " />
+            	<p:inputText id="nmBairro" value="#{clienteController.cliente.endereco.nmBairro}" style="width:600px"/>  
+				<h:outputText value="" />
+
+	            <h:outputLabel value="Cidade: " />
+            	<p:inputText id="nmCidade" value="#{clienteController.cliente.endereco.nmCidade}" style="width:600px"/>  
+				<h:outputText value="" />
+
+	            <h:outputLabel value="Estado: " />
+            	<p:inputText id="nmUf" maxlength="2" value="#{clienteController.cliente.endereco.nmUf}" style="width:600px"/>  
+				<h:outputText value="" />
+
+	            <h:outputLabel value="CEP: " />
+            	<p:inputMask id="nuCep" mask="99.999-999" maxlength="10" value="#{clienteController.cliente.endereco.nuCep}" style="width:600px"/>  
+				<h:outputText value="" />
+				
+	        </h:panelGrid>  
+	    </p:tab>  
+	  
+	    <p:tab id="tab3" title="Contato" >  
+	        <h:panelGrid columns="3" cellpadding="2" columnClasses="colunaLabel">  
+				
+				<h:outputLabel value="Telefone Residêncial: " />
+            	<p:inputMask id="nuTelRes" mask="(99)9999-9999" maxlength="13" value="#{clienteController.cliente.contato.nuTelRes}" style="width:600px"/>  
+				<h:outputText value="" />
+				
+				<h:outputLabel value="Telefone Comercial: " />
+            	<p:inputMask id="nuTelCom" mask="(99)9999-9999" maxlength="13" value="#{clienteController.cliente.contato.nuTelCom}" style="width:600px"/>  
+				<h:outputText value="" />
+				
+				<h:outputLabel value="E-mail: " />
+            	<p:inputText id="deEmail" value="#{clienteController.cliente.contato.deEmail}" style="width:600px"/>  
+				<h:outputText value="" />
+				
+				<h:outputLabel value="Site: " />
+            	<p:inputText id="deSite" value="#{clienteController.cliente.contato.deSite}" style="width:600px"/>  
+				<h:outputText value="" />
+				
+	            <h:inputHidden value="#{clienteController.cliente.dtCadastro}">
+	            	<f:convertDateTime pattern="yyyy/MM/dd" timeZone="#{utilsController.timeZone}"/>
+	            </h:inputHidden>
+				
+				<h:inputHidden value="#{clienteController.cliente.idCliente}" />
+				<h:inputHidden value="#{clienteController.cliente.contato.idContato}" />
+				<h:inputHidden value="#{clienteController.cliente.endereco.idEndereco}" />
+				
+	        </h:panelGrid>  
+	    </p:tab>  
+	  
+	</p:tabView>
+</ui:composition>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/layout/template.xhtml">
+				
+	<ui:define name="conteudo">
+
+		<h:form id="grid">
+			<p:panel header="Lista de Serviços em Andamento" id="panelGrid" >
+				<p:dataTable
+			    	id="dataTableServicos"
+			    	var="s"
+			    	value="#{osAndamentoController.servicesByDay}"
+			    	paginator="true"
+			    	rowKey="#{s.idServico}"  
+			        paginatorPosition="bottom"  
+	                paginatorAlwaysVisible="false"  
+	                rows="10"                                          
+	                emptyMessage="Nenhum Serviço Encontrado" 
+	                filteredValue="#{osAndamentoController.filterServicos}">
+	                
+	                <p:column headerText="Placa/Modelo" filterBy="veiculo.veiculoFmt" sortBy="veiculo.veiculoFmt" >  
+			        	<h:outputText value="#{s.veiculo.veiculoFmt}" />  
+			        </p:column>
+			            
+			        <p:column headerText="Cliente" filterBy="cliente.nmClienteFmt" sortBy="cliente.nmClienteFmt" >  
+			        	<h:outputText value="#{s.cliente.nmClienteFmt}" />  
+			        </p:column>  
+			        
+			        <p:column headerText="Data/Hora" filterBy="dtServicoFmt" sortBy="dtServicoFmt" styleClass="alignCenter">
+			        	<h:outputText value="#{s.dtServicoFmt}" />
+			        </p:column>
+			        
+			        <p:column headerText="Status Financeiro" filterBy="financeiro.statusFinanceiroFmt" sortBy="financeiro.statusFinanceiroFmt" styleClass="alignCenter">  
+			        	<h:outputText value="#{s.financeiro.statusFinanceiroFmt}" styleClass="#{s.financeiro.statusFinanceiro eq 'A' ? 'colorRed' : s.financeiro.statusFinanceiro eq 'P' ? 'colorGreen' : 'colorBlue'}" />  
+			        </p:column>
+			        
+			        <p:column headerText="Valor" filterBy="financeiro.valor" sortBy="financeiro.valor" styleClass="alignCenter">  
+			        	<h:outputText value="#{s.financeiro.valorFmt}" />
+			        </p:column>
+			        
+			        <p:column headerText="Garantia" filterBy="estaNaGarantia" sortBy="estaNaGarantia" styleClass="alignCenter">  
+			        	<h:outputText value="#{s.estaNaGarantia}" styleClass="#{s.estaNaGarantia eq 'Fora Garantia' ? 'colorRed' : 'colorGreen'}"/>
+			        </p:column>
+
+			        <p:column headerText="Status Serviço" filterBy="statusServicoFmt" sortBy="statusServicoFmt" styleClass="alignCenter" >  
+			        	<h:outputText value="#{s.statusServicoFmt}" styleClass="#{s.statusServicoFmt eq 'Finalizado' ? 'colorGreen' : s.statusServicoFmt eq 'Em Andamento' ? 'colorBlue' : 'colorRed'}"/>  
+			        </p:column>
+
+			        <p:column headerText="#{msg['label.cliente.acao']}" style="text-align: center;" > 
+			            <p:commandButton update="@all" action="#{osAndamentoController.editaServico(s)}" id="iconEditar" icon="ui-icon ui-icon-pencil" title="Editar" disabled="#{s.statusServico == 'C' ? 'true' : s.statusServico == 'F' ? 'true' : 'false' }"/>
+			            <p:commandButton update="@all" action="#{relatorioController.imprimirServico(s)}" id="iconImprimir" icon="ui-icon ui-icon-print" title="Imprimir Serviço"/>
+			        </p:column>
+			        
+		    	</p:dataTable>
+		    	
+		    	<f:facet name="footer"> 
+		        	<p:commandButton id="cadButton" value="Novo Serviço" icon="ui-icon-pencil" action="#{servicoController.novoServico()}">
+		        		<f:param name="osAndamento" value="true"/>
+		        	</p:commandButton>
+		        </f:facet> 
+			</p:panel>
+		</h:form>
+  
+	</ui:define>
+
+</ui:composition>

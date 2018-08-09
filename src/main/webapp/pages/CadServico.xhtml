@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/layout/template.xhtml"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<ui:define name="conteudo">
+
+		<h:form id="formCadServico">
+
+			<p:panel header="Cadastro de Serviços">
+
+				<br />
+
+				<p:wizard flowListener="#{servicoController.onFlowProcess}">
+
+					<p:tab id="veiculo" title="VEÍCULO">
+						<p:panel header="Dados do Veículo">
+<!-- 							<p:messages /> -->
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="Placa: *" />
+			                    <p:inputMask mask="aaa-9999" style="text-transform:uppercase" size="8" value="#{servicoController.servico.veiculo.nuPlaca}" required="true" label="Placa"/>
+			 
+			                    <h:outputText value="Marca: *" />
+			                    <p:selectOneMenu id="deMarca" required="true" label="Marca" value="#{servicoController.servico.veiculo.modelo.marca}" style="width:300px">
+									<f:selectItem itemLabel="-- Selecione --" itemValue=""/>
+					            	<f:selectItems value="#{servicoController.marcas}" var="marca" itemLabel="#{marca.deMarca}" itemValue="#{marca}"/>
+					            	<p:ajax process="deMarca" update="deModelo" listener="#{servicoController.buscaModelos()}"/>			                    
+			                    </p:selectOneMenu>
+			                    
+		                    	<h:outputText value="Modelo: *" />
+		                    	<p:selectOneMenu id="deModelo" disabled="#{empty servicoController.modelos}" required="true" label="Modelo" value="#{servicoController.servico.veiculo.modelo}" style="width:300px">
+									<f:selectItem itemLabel="-- Selecione --" itemValue=""/>
+					            	<f:selectItems value="#{servicoController.modelos}" var="modelo" itemLabel="#{modelo.deModelo}" itemValue="#{modelo}"/>			                    
+		                    	</p:selectOneMenu>
+			 
+			                    <h:outputText value="Pular para confirmação do serviço: " />
+			                    <h:selectBooleanCheckbox value="#{servicoController.skip}" />
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+					
+					<p:tab id="produtos" title="PRODUTOS">
+						<p:panel header="Películas aplicadas">
+						
+						</p:panel>
+					</p:tab>
+
+				</p:wizard>
+
+			</p:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

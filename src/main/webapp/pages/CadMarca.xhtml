@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/layout/template.xhtml">
+				
+	<ui:define name="conteudo">
+
+		<h:form id="formCadMarca">
+		    
+		    <p:panel header="Cadastro de Marca dos Veículos">
+		    	<h:panelGrid columns="3" id="grid">
+		    	
+					<h:outputLabel for="deMarca" value="Marca do Veículo: " style="font-weight: bold;"/>
+		            <p:inputText id="deMarca" maxlength="100" label="deMarca" value="#{marcaController.marca.deMarca}" required="true" requiredMessage="Campo Obrigatório" style="width:300px"/> 
+					<p:message id="msgDeMarca" for="deMarca" display="text" />
+					
+					<h:inputHidden value="#{marcaController.marca.idMarca}" />
+							
+		    	</h:panelGrid>
+
+		        <f:facet name="footer">
+					<p:commandButton action="#{marcaController.salvarMarca()}" icon="ui-icon ui-icon-disk" update="@all" value="#{marcaController.marca.idMarca == null ? 'Gravar' : 'Alterar'}"/>
+					<p:button outcome="ConMarca" icon="ui-icon ui-icon-close" value="Cancelar"/>
+				</f:facet>
+		    </p:panel>  
+			
+		</h:form>
+  
+	</ui:define>
+
+</ui:composition>
