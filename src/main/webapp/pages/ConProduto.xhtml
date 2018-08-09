@@ -38,19 +38,40 @@
 			        	<h:outputText value="#{p.deProduto}" />  
 			        </p:column>  
 			        
-			        <p:column headerText="Status" filterBy="#{p.statusProdutoFmt}" sortBy="#{p.statusProdutoFmt}" styleClass="alignCenter" width="80" >
+			        <p:column headerText="Status" filterBy="#{p.statusProdutoFmt}" sortBy="#{p.statusProdutoFmt}" styleClass="alignCenter" width="80" exportable="false">
 			        	<p:commandLink id="ajaxStatusProduto" update="@all" actionListener="#{produtoController.updateStatus(p)}">
 			        		<p:graphicImage id="image" value="#{p.statusProduto == 'A' ? 'imagens/ativo.png' : 'imagens/inativo.png'}" />
-<!-- 				            <h:outputText id="labelStatusProduto" value="#{p.statusProdutoFmt}" /> -->
 			        	</p:commandLink>
 			        </p:column> 
 			        
-			        <p:column headerText="#{msg['label.cliente.acao']}" styleClass="alignCenter" width="90" > 
+			        <p:column headerText="#{msg['label.cliente.acao']}" styleClass="alignCenter" width="90" exportable="false"> 
 			            <p:commandButton update="@all" action="#{produtoController.visualizaProduto(p)}" id="iconVisualizar" icon="ui-icon ui-icon ui-icon-search" title="Visualizar"/>
 			            <p:commandButton update="@all" action="#{produtoController.editaProduto(p)}" id="iconEditar" icon="ui-icon ui-icon-pencil" title="Editar"/>
 			        </p:column>
 			        
 		    	</p:dataTable>
+		    	
+		    	<p:spacer height="50" width="10" />
+		    	
+		    	<h:commandLink id="excel">
+			        <p:graphicImage id="imgExcel" value="imagens/excel.png" />
+			        <p:dataExporter type="xls" target="dataTableProdutos" fileName="ProdutosCP"  />
+			    </h:commandLink>
+			 
+			    <h:commandLink id="pdf">
+			        <p:graphicImage value="imagens/pdf.png" />
+			        <p:dataExporter type="pdf" encoding="ISO-8859-1" preProcessor="#{utilsController.preProcessPDF}" target="dataTableProdutos" fileName="ProdutosCP" />
+			    </h:commandLink>
+			 
+<!-- 			    <h:commandLink id="csv"> -->
+<!-- 			        <p:graphicImage value="imagens/csv.png" /> -->
+<!-- 			        <p:dataExporter type="csv" target="dataTableProdutos" fileName="ProdutosCP" /> -->
+<!-- 			    </h:commandLink> -->
+			 
+<!-- 			    <h:commandLink id="xml"> -->
+<!-- 			        <p:graphicImage value="imagens/xml.png" /> -->
+<!-- 			        <p:dataExporter type="xml" target="dataTableProdutos" fileName="ProdutosCP" /> -->
+<!-- 			    </h:commandLink> -->
 		    	
 		    	<f:facet name="footer"> 
 		        	<p:commandButton id="cadButton" value="Novo Produto" icon="ui-icon-pencil" action="#{produtoController.novoProduto()}"/>

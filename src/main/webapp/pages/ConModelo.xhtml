@@ -10,7 +10,7 @@
 		<h:form id="grid">
 			<p:panel header="Lista de Modelo dos Veículos" id="panelGrid">
 				<p:dataTable
-			    	id="dataTableMarcas"
+			    	id="dataTableModelos"
 			    	var="mo"
 			    	value="#{modeloController.modelos}"
 			    	paginator="true"
@@ -42,12 +42,34 @@
 			        	<h:outputText value="#{mo.marcaFmt}" />  
 			        </p:column>  
 			        
-			        <p:column headerText="#{msg['label.cliente.acao']}" style="text-align: center;" width="90"> 
+			        <p:column headerText="#{msg['label.cliente.acao']}" style="text-align: center;" width="90" exportable="false"> 
 			            <p:commandButton update="@all" action="#{modeloController.visualizarModelo(mo)}" id="iconVisualizar" icon="ui-icon ui-icon ui-icon-search" title="Visualizar"/>
 			            <p:commandButton update="@all" action="#{modeloController.editaModelo(mo)}" id="iconEditar" icon="ui-icon ui-icon-pencil" title="Editar"/>
 			        </p:column>
 			        
 		    	</p:dataTable>
+		    	
+		    	<p:spacer height="50" width="10" />
+		    	
+		    	<h:commandLink id="excel">
+			        <p:graphicImage id="imgExcel" value="imagens/excel.png" />
+			        <p:dataExporter type="xls" target="dataTableModelos" fileName="ModelosCP"  />
+			    </h:commandLink>
+			 
+			    <h:commandLink id="pdf">
+			        <p:graphicImage value="imagens/pdf.png" />
+			        <p:dataExporter type="pdf" encoding="ISO-8859-1" preProcessor="#{utilsController.preProcessPDF}" target="dataTableModelos" fileName="ModelosCP" />
+			    </h:commandLink>
+			 
+<!-- 			    <h:commandLink id="csv"> -->
+<!-- 			        <p:graphicImage value="imagens/csv.png" /> -->
+<!-- 			        <p:dataExporter type="csv" target="dataTableModelos" fileName="ModelosCP" /> -->
+<!-- 			    </h:commandLink> -->
+			 
+<!-- 			    <h:commandLink id="xml"> -->
+<!-- 			        <p:graphicImage value="imagens/xml.png" /> -->
+<!-- 			        <p:dataExporter type="xml" target="dataTableModelos" fileName="ModelosCP" /> -->
+<!-- 			    </h:commandLink> -->
 		    	
 		    	<f:facet name="footer"> 
 		        	<p:commandButton id="cadButton" value="Novo Modelo" icon="ui-icon-pencil" action="#{modeloController.novoModelo()}"/>

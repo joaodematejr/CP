@@ -10,51 +10,82 @@
 		<h:form id="grid" >
 			<p:panel header="Lista de Ordens de Serviço Cadastradas" id="panelGrid" >
 				<p:dataTable
-			    	id="dataTableOS"
+			    	id="dataTableServicos"
 			    	var="s"
 			    	value="#{servicoController.servicos}"
 			    	paginator="true"
 			    	rowKey="#{os.idServico}"  
 			        paginatorPosition="bottom"  
 	                paginatorAlwaysVisible="false"  
-	                rows="10"                                          
+	                rows="10"
+	                widgetVar="servicosTable"
+	                filterEvent="enter"
 	                emptyMessage="Nenhuma Ordem de Serviço Encontrada" 
 	                filteredValue="#{servicoController.filterServicos}">
 	                
-	                <p:column headerText="Placa/Modelo" filterBy="veiculo.veiculoFmt" sortBy="veiculo.veiculoFmt" >  
+	                <f:facet name="header">
+			            <p:outputPanel styleClass="alignRight">
+			                <h:outputText value="Pesquisar em todos os campos:" />
+			                <p:inputText id="globalFilter" onchange="PF('servicosTable').filter()" style="width:300px" placeholder="Insira a palavra-chave"/>
+			            </p:outputPanel>
+			        </f:facet>
+	                
+	                <p:column headerText="Placa/Modelo" filterBy="#{s.veiculo.veiculoFmt}" sortBy="#{s.veiculo.veiculoFmt}" >  
 			        	<h:outputText value="#{s.veiculo.veiculoFmt}" />  
 			        </p:column>
 			            
-			        <p:column headerText="Cliente" filterBy="cliente.nmClienteFmt" sortBy="cliente.nmClienteFmt" >  
+			        <p:column headerText="Cliente" filterBy="#{s.cliente.nmClienteFmt}" sortBy="#{s.cliente.nmClienteFmt}" >  
 			        	<h:outputText value="#{s.cliente.nmClienteFmt}" />  
 			        </p:column>  
 			        
-			        <p:column headerText="Data/Hora" filterBy="dtServicoFmt" sortBy="dtServicoFmt" styleClass="alignCenter">
+			        <p:column headerText="Data/Hora" filterBy="#{s.dtServicoFmt}" sortBy="#{s.dtServicoFmt}" styleClass="alignCenter">
 			        	<h:outputText value="#{s.dtServicoFmt}" />
 			        </p:column>
 			        
-			        <p:column headerText="Status Financeiro" filterBy="financeiro.statusFinanceiroFmt" sortBy="financeiro.statusFinanceiroFmt" styleClass="alignCenter">  
+			        <p:column headerText="Status Financeiro" filterBy="#{s.financeiro.statusFinanceiroFmt}" filterMatchMode="contains" sortBy="#{s.financeiro.statusFinanceiroFmt}" styleClass="alignCenter">  
 			        	<h:outputText value="#{s.financeiro.statusFinanceiroFmt}" styleClass="#{s.financeiro.statusFinanceiro eq 'A' ? 'colorRed' : s.financeiro.statusFinanceiro eq 'P' ? 'colorGreen' : 'colorBlue'}" />  
 			        </p:column>
 			        
-			        <p:column headerText="Valor" filterBy="financeiro.valor" sortBy="financeiro.valor" styleClass="alignCenter">  
+			        <p:column headerText="Valor" filterBy="#{s.financeiro.valorFmt}" sortBy="#{s.financeiro.valorFmt}" styleClass="alignCenter">  
 			        	<h:outputText value="#{s.financeiro.valorFmt}" />
 			        </p:column>
 			        
-			        <p:column headerText="Garantia" filterBy="estaNaGarantia" sortBy="estaNaGarantia" styleClass="alignCenter">  
+			        <p:column headerText="Garantia" filterBy="#{s.estaNaGarantia}" sortBy="#{s.estaNaGarantia}" styleClass="alignCenter">  
 			        	<h:outputText value="#{s.estaNaGarantia}" styleClass="#{s.estaNaGarantia eq 'Fora Garantia' ? 'colorRed' : 'colorGreen'}"/>
 			        </p:column>
 
-			        <p:column headerText="Status Serviço" filterBy="statusServicoFmt" sortBy="statusServicoFmt" styleClass="alignCenter" >  
+			        <p:column headerText="Status" filterBy="#{s.statusServicoFmt}" sortBy="#{s.statusServicoFmt}" styleClass="alignCenter" >  
 			        	<h:outputText value="#{s.statusServicoFmt}" styleClass="#{s.statusServicoFmt eq 'Finalizado' ? 'colorGreen' : s.statusServicoFmt eq 'Em Andamento' ? 'colorBlue' : 'colorRed'}"/>  
 			        </p:column>
 
-			        <p:column headerText="#{msg['label.cliente.acao']}" style="text-align: center;" > 
+			        <p:column headerText="#{msg['label.cliente.acao']}" styleClass="alignCenter" width="90" exportable="false" > 
 			            <p:commandButton update="@all" action="#{servicoController.editaServico(s)}" id="iconEditar" icon="ui-icon ui-icon-pencil" title="Editar" disabled="#{s.statusServico == 'C' ? 'true' : s.statusServico == 'F' ? 'true' : 'false' }"/>
 			            <p:commandButton update="@all" action="#{relatorioController.imprimirServico(s)}" id="btImprimir" icon="ui-icon ui-icon-print"  title="Imprimir Serviço"/>
 			        </p:column>
 			        
 		    	</p:dataTable>
+		    	
+		    	<p:spacer height="50" width="10" />
+		    	
+		    	<h:commandLink id="excel">
+			        <p:graphicImage id="imgExcel" value="imagens/excel.png" />
+			        <p:dataExporter type="xls" target="dataTableServicos" fileName="ServiçosCP"  />
+			    </h:commandLink>
+			 
+			    <h:commandLink id="pdf">
+			        <p:graphicImage value="/pages/imagens/pdf.png" />
+			        <p:dataExporter type="pdf" encoding="ISO-8859-1" preProcessor="#{utilsController.preProcessPDF}" target="dataTableServicos" fileName="ServiçosCP" />
+			    </h:commandLink>
+			 
+<!-- 			    <h:commandLink id="csv"> -->
+<!-- 			        <p:graphicImage value="imagens/csv.png" /> -->
+<!-- 			        <p:dataExporter type="csv" target="dataTableServicos" fileName="ServiçosCP" /> -->
+<!-- 			    </h:commandLink> -->
+			 
+<!-- 			    <h:commandLink id="xml"> -->
+<!-- 			        <p:graphicImage value="imagens/xml.png" /> -->
+<!-- 			        <p:dataExporter type="xml" target="dataTableServicos" fileName="ServiçosCP" /> -->
+<!-- 			    </h:commandLink> -->
 		    	
 		    	<f:facet name="footer"> 
 		        	<p:commandButton id="cadButton" value="Novo Serviço" icon="ui-icon-pencil" action="#{servicoController.novoServico()}">

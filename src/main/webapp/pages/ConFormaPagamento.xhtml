@@ -17,25 +17,55 @@
 			    	rowKey="#{f.idFormaPgto}"  
 			        paginatorPosition="bottom"  
 	                paginatorAlwaysVisible="false"  
-	                rows="10"                                          
+	                rows="10"
+	                widgetVar="formasPagamentoTable"
+	                filterEvent="enter"
 	                emptyMessage="Nenhuma Forma de Pagamento Encontrada" 
-	                filteredValue="#{formaPagamentoController.filterFormasPagamentos}">  
+	                filteredValue="#{formaPagamentoController.filterFormasPagamentos}">
+	                
+	                <f:facet name="header">
+			            <p:outputPanel styleClass="alignRight">
+			                <h:outputText value="Pesquisar em todos os campos:" />
+			                <p:inputText id="globalFilter" onchange="PF('formasPagamentoTable').filter()" style="width:300px" placeholder="Insira a palavra-chave"/>
+			            </p:outputPanel>
+			        </f:facet>
 			            
-			        <p:column headerText="Código" filterBy="idFormaPgto" sortBy="idFormaPgto"  styleClass="alignCenter" >  
+			        <p:column headerText="Código" filterBy="#{f.idFormaPgto}" sortBy="#{f.idFormaPgto}" width="80" styleClass="alignCenter" >  
 			        	<h:outputText value="#{f.idFormaPgto}" />  
 			        </p:column>
 			        
-			        <p:column headerText="Forma de Pagamento" filterBy="deFormaPgto" sortBy="deFormaPgto"  >  
+			        <p:column headerText="Forma de Pagamento" filterBy="#{f.deFormaPgto}" sortBy="#{f.deFormaPgto}"  >  
 			        	<h:outputText value="#{f.deFormaPgto}" />  
 			        </p:column>  
 			        
-			        <p:column headerText="#{msg['label.cliente.acao']}" style="text-align: center;" > 
+			        <p:column headerText="#{msg['label.cliente.acao']}" styleClass="alignCenter" width="90" exportable="false"> 
 			            <p:commandButton update="@all" action="#{formaPagamentoController.visualizarFormaPagamento(f)}" id="iconVisualizar" icon="ui-icon ui-icon ui-icon-search" title="Visualizar"/>
 			            <p:commandButton update="@all" action="#{formaPagamentoController.editaFormaPagamento(f)}" id="iconEditar" icon="ui-icon ui-icon-pencil" title="Editar"/>
 			        </p:column>
 			        
-			        
 		    	</p:dataTable>
+		    	
+		    	<p:spacer height="50" width="10" />
+		    	
+		    	<h:commandLink id="excel">
+			        <p:graphicImage id="imgExcel" value="imagens/excel.png" />
+			        <p:dataExporter type="xls" target="dataTableFormasPagamento" fileName="FormasPagamentoCP"  />
+			    </h:commandLink>
+			 
+			    <h:commandLink id="pdf">
+			        <p:graphicImage value="/pages/imagens/pdf.png" />
+			        <p:dataExporter type="pdf" encoding="ISO-8859-1" preProcessor="#{utilsController.preProcessPDF}" target="dataTableFormasPagamento" fileName="FormasPagamentoCP" />
+			    </h:commandLink>
+			 
+<!-- 			    <h:commandLink id="csv"> -->
+<!-- 			        <p:graphicImage value="imagens/csv.png" /> -->
+<!-- 			        <p:dataExporter type="csv" target="dataTableFormasPagamento" fileName="FormasPagamentoCP" /> -->
+<!-- 			    </h:commandLink> -->
+			 
+<!-- 			    <h:commandLink id="xml"> -->
+<!-- 			        <p:graphicImage value="imagens/xml.png" /> -->
+<!-- 			        <p:dataExporter type="xml" target="dataTableFormasPagamento" fileName="FormasPagamentoCP" /> -->
+<!-- 			    </h:commandLink> -->
 		    	
 		    	<f:facet name="footer"> 
 		        	<p:commandButton id="cadButton" value="Nova Forma de Pagamento" icon="ui-icon-pencil" action="#{formaPagamentoController.novaFormaPagamento()}"/>

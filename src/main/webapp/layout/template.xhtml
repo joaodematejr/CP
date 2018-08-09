@@ -28,6 +28,10 @@
 				
 	 			<h:form id="formMessages">
 	 				<p:growl id="growl" showDetail="true" life="5000" autoUpdate="true" closable="true" /> 
+	 				
+	 				#{request.contextPath} ----
+	 				<br/>
+	 				${pageContext.request.contextPath} ------------------ ${baseURL}
 				</h:form>
 				<ui:insert name="conteudo"/> 
 			</h:panelGroup> 
